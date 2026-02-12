@@ -8,7 +8,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "products")
@@ -54,11 +56,12 @@ public class Product {
     //relations
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<ProductSize> productSizes = new ArrayList<>();
+    private Set<ProductSize> productSizes = new HashSet<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<Image> images = new ArrayList<>();
+    @OrderBy("imageId ASC")
+    private Set<Image> images = new HashSet<>();
 
     public Integer getProductId() {
         return productId;
@@ -148,19 +151,19 @@ public class Product {
         this.updatedAt = updatedAt;
     }
 
-    public List<ProductSize> getProductSizes() {
+    public Set<ProductSize> getProductSizes() {
         return productSizes;
     }
 
-    public void setProductSizes(List<ProductSize> productSizes) {
+    public void setProductSizes(Set<ProductSize> productSizes) {
         this.productSizes = productSizes;
     }
 
-    public List<Image> getImages() {
+    public Set<Image> getImages() {
         return images;
     }
 
-    public void setImages(List<Image> images) {
+    public void setImages(Set<Image> images) {
         this.images = images;
     }
 }
